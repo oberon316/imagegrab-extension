@@ -1,0 +1,119 @@
+/* 本地素材页样式。仅用于测试，使用了扩展的品牌配色以便肉眼确认配色一致。 */
+
+:root {
+  --ig-cream: #F7F3E9;
+  --ig-teal: #0E5C55;
+  --ig-caramel: #A9682F;
+  --ig-gold: #C9A96A;
+  --ig-ink: #2B2A27;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 0 0 60px;
+  background: var(--ig-cream);
+  color: var(--ig-ink);
+  font-family: -apple-system, "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  line-height: 1.6;
+}
+
+.fixture-banner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 12px 20px;
+  background: var(--ig-caramel);
+  color: #FFF6EC;
+  font-size: 13px;
+}
+
+.fixture-banner code { background: rgba(255, 255, 255, 0.2); padding: 1px 5px; border-radius: 4px; }
+
+main { max-width: 900px; margin: 0 auto; padding: 20px; }
+
+h1 { margin: 16px 0 4px; font-size: 22px; color: var(--ig-teal); }
+
+.price { margin: 0 0 20px; font-size: 20px; color: var(--ig-caramel); font-weight: 700; }
+
+h2 {
+  margin: 26px 0 10px;
+  padding-bottom: 6px;
+  font-size: 15px;
+  border-bottom: 1px solid var(--ig-gold);
+  color: var(--ig-teal);
+}
+
+.row { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-start; }
+
+.thumb {
+  border: 1px solid var(--ig-gold);
+  border-radius: 8px;
+  background: #FFFDF7;
+  object-fit: contain;
+}
+
+.bg {
+  width: 150px;
+  height: 110px;
+  border: 1px solid var(--ig-gold);
+  border-radius: 8px;
+  background-color: #FFFDF7;
+}
+
+.bg-single { background-image: url("assets/wide.png"); background-size: cover; }
+
+/* 多重背景：两张图片叠加 */
+.bg-multi {
+  background-image: url("assets/wide.png"), url("assets/tiny.png");
+  background-size: 100% 100%, 24px 24px;
+  background-position: 0 0, 10px 10px;
+  background-repeat: no-repeat, no-repeat;
+}
+
+/* 渐变与背景图混写：渐变里没有 url()，不应产生多余条目 */
+.bg-gradient {
+  background-image: linear-gradient(135deg, rgba(14, 92, 85, 0.35), rgba(201, 169, 106, 0.1)), url("assets/sample.png");
+  background-size: cover, 60px 60px;
+  background-repeat: no-repeat, repeat;
+}
+
+/* image-set：1x 与 2x 两个候选都应被采集到 */
+.bg-imageset {
+  background-image: image-set(url("assets/tiny.png") 1x, url("assets/wide.png") 2x);
+  background-size: 24px 24px, 100% 100%;
+  background-repeat: repeat, no-repeat;
+}
+
+.controls { margin-top: 30px; }
+
+.controls button {
+  margin: 4px 8px 4px 0;
+  padding: 8px 14px;
+  border: 1px solid var(--ig-gold);
+  border-radius: 8px;
+  background: var(--ig-teal);
+  color: var(--ig-cream);
+  font: inherit;
+  cursor: pointer;
+}
+
+.controls button:hover { background: #0A4640; }
+
+.expect {
+  margin-top: 30px;
+  padding: 14px 20px;
+  background: #FFFDF7;
+  border: 1px solid var(--ig-gold);
+  border-radius: 10px;
+}
+
+.expect ul { padding-left: 22px; }
+
+.expect code {
+  background: rgba(201, 169, 106, 0.25);
+  padding: 1px 5px;
+  border-radius: 4px;
+  font-size: 12px;
+}

@@ -1,0 +1,4 @@
+# 图提取 / ImageGrab 安装包校验值（SHA-256）
+# 校验方法：certutil -hashfile <文件名> SHA256   （或 sha256sum <文件名>）
+
+7ea5e7c8d6468508d9996148ec8bde1703dbaa3b0914f40d925c3a8332c70e54  imagegrab-v1.0.0.zip

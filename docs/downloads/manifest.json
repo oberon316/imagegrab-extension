@@ -1,0 +1,12 @@
+{
+  "name": "图提取 / ImageGrab",
+  "version": "1.0.0",
+  "file": "imagegrab-v1.0.0.zip",
+  "bytes": 53524,
+  "humanBytes": "52.3 KB",
+  "sha256": "7ea5e7c8d6468508d9996148ec8bde1703dbaa3b0914f40d925c3a8332c70e54",
+  "entries": 21,
+  "unpackedBytes": 122236,
+  "generatedAt": "2026-10-15T10:57:21.148Z",
+  "installNote": "下载后解压到固定目录，再在 chrome://extensions 打开开发者模式，选择\"加载已解压的扩展程序\"指向解压出的目录。"
+}

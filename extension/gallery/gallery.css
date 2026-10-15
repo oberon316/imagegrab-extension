@@ -1,0 +1,493 @@
+/*
+ * gallery.css —— 图库页面样式。
+ * 配色：奶油白底 + 深松石绿主色 + 焦糖棕强调 + 雾金描边。
+ * 色值定义在这里，同时 check.mjs 会校验它与 scripts/lib/palette.mjs 一致。
+ */
+
+:root {
+  --ig-cream: #F7F3E9;
+  --ig-teal: #0E5C55;
+  --ig-teal-deep: #0A4640;
+  --ig-caramel: #A9682F;
+  --ig-gold: #C9A96A;
+  --ig-ink: #2B2A27;
+  --ig-surface: #FFFDF7;
+  --ig-line: rgba(43, 42, 39, 0.14);
+  --ig-shadow: 0 6px 18px rgba(11, 42, 39, 0.12);
+  /* 外壳每一段之间留的缝：内容区上下各让出这么多，页面底色露出来 */
+  --ig-gap: 12px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/*
+ * 整页做成"固定高度的四段式外壳"：顶栏 / 工具条 / 可滚动内容区 / 底部下载条。
+ * 为什么不用 body 滚动 + position:sticky 的下载条或工具条：sticky/fixed 元素在滚动过程中
+ * 会浮在内容之上，把网格的某一行压住（见 tests/browser-e2e.mjs 的 E2E-17、E2E-18）。
+ * 这里让外壳的每一段都占住自己的位置（position 全是默认的 static），
+ * 滚动只发生在中间的 .scroller 里，它还会把自己的内容裁掉（overflow-y:auto），
+ * 因此卡片的任何像素都不可能跑到工具条或下载条上面去。
+ */
+body {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--ig-cream);
+  color: var(--ig-ink);
+  font-family: -apple-system, "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB", system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/*
+ * 提示条 / 网格 / 失败清单都在这里，只有它的内容会滚动。
+ * 上下各留 --ig-gap 的缝（页面底色露出来）：滚动到一半时被裁掉的卡片
+ * 只会碰到内容区的边缘，不会正好贴在工具条或下载条上 —— 那样看起来就像两者重合。
+ */
+.scroller {
+  flex: 1 1 auto;
+  min-height: 0;
+  margin: var(--ig-gap) 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  /* 滚动条一直占位，筛选结果变化引起滚动条出现/消失时网格不会左右跳 */
+  scrollbar-gutter: stable;
+}
+
+/* 键盘焦点进入内容区时给个可见的焦点环（整页不再滚动，滚动只发生在这里） */
+.scroller:focus-visible {
+  outline: 3px solid var(--ig-teal);
+  outline-offset: -3px;
+}
+
+/* ---------------------------------------------------------------- 顶栏 */
+
+.topbar {
+  flex: 0 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  background: var(--ig-teal);
+  color: var(--ig-cream);
+  border-bottom: 3px solid var(--ig-gold);
+}
+
+.brand {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  min-width: 0;
+}
+
+.logo { border-radius: 10px; flex: 0 0 auto; }
+
+.brand-text { min-width: 0; }
+
+.brand h1 {
+  margin: 0;
+  font-size: 18px;
+  letter-spacing: 0.04em;
+}
+
+.source {
+  margin: 2px 0 0;
+  font-size: 12px;
+  color: rgba(247, 243, 233, 0.82);
+  max-width: 60ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.topbar-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.meta {
+  font-size: 12px;
+  color: rgba(247, 243, 233, 0.82);
+}
+
+/* ---------------------------------------------------------------- 按钮 */
+
+button {
+  font: inherit;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background-color 120ms ease, border-color 120ms ease, opacity 120ms ease;
+}
+
+button:focus-visible {
+  outline: 3px solid var(--ig-gold);
+  outline-offset: 2px;
+}
+
+.ghost {
+  padding: 6px 12px;
+  background: transparent;
+  color: inherit;
+  border: 1px solid var(--ig-gold);
+}
+
+.topbar .ghost:hover { background: rgba(201, 169, 106, 0.22); }
+
+.toolbar .ghost,
+.errors .ghost {
+  color: var(--ig-teal);
+  background: transparent;
+  border: 1px solid var(--ig-gold);
+}
+
+.toolbar .ghost:hover,
+.errors .ghost:hover { background: rgba(201, 169, 106, 0.18); }
+
+.primary {
+  padding: 12px 24px;
+  background: var(--ig-teal);
+  color: var(--ig-cream);
+  border: 1px solid var(--ig-gold);
+  font-weight: 600;
+  font-size: 15px;
+  box-shadow: var(--ig-shadow);
+}
+
+.primary:hover:not(:disabled) { background: var(--ig-teal-deep); }
+
+.primary:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* ---------------------------------------------------------------- 提示条 */
+
+.notice {
+  margin: 0;
+  padding: 10px 20px;
+  background: #FBF1E7;
+  border-bottom: 1px solid var(--ig-caramel);
+  color: #6B3F16;
+  font-size: 13px;
+}
+
+.notice[hidden] { display: none; }
+
+.notice ul {
+  margin: 4px 0 0;
+  padding-left: 20px;
+}
+
+/* ---------------------------------------------------------------- 工具栏 */
+
+/*
+ * 工具条：外壳里的普通一行，和顶栏、内容区、下载条平级。
+ * 早先它用 position:sticky 钉在内容区顶部，滚动时把卡片压在下面（截图里就是"重合"）。
+ * 现在它照样始终可见，但它是"自己占一行"，不是"浮在别人上面"。
+ */
+.toolbar {
+  flex: 0 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  background: var(--ig-surface);
+  border-bottom: 1px solid var(--ig-line);
+}
+
+.filter-group,
+.select-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+.field {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  font-size: 13px;
+}
+
+.field input[type="number"] {
+  width: 76px;
+  padding: 5px 8px;
+  border: 1px solid var(--ig-line);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--ig-ink);
+  font: inherit;
+}
+
+.field input[type="number"]:focus-visible {
+  outline: 2px solid var(--ig-teal);
+  outline-offset: 1px;
+}
+
+.field.checkbox { gap: 6px; }
+.field.checkbox input { width: 16px; height: 16px; accent-color: var(--ig-teal); }
+
+.selected-count { font-size: 13px; color: rgba(43, 42, 39, 0.72); }
+.selected-count strong { color: var(--ig-caramel); font-size: 15px; }
+
+/* ---------------------------------------------------------------- 网格 */
+
+.content { padding: 16px 20px 28px; }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: var(--ig-surface);
+  border: 1px solid var(--ig-line);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: border-color 120ms ease, box-shadow 120ms ease;
+}
+
+.card:hover { border-color: var(--ig-gold); box-shadow: var(--ig-shadow); }
+
+.card[data-state="done"] { border-color: var(--ig-teal); }
+.card[data-state="failed"] { border-color: var(--ig-caramel); }
+.card[data-pending="true"] { border-style: dashed; }
+
+.thumb {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  background:
+    linear-gradient(45deg, rgba(201, 169, 106, 0.14) 25%, transparent 25%) 0 0 / 16px 16px,
+    linear-gradient(-45deg, rgba(201, 169, 106, 0.14) 25%, transparent 25%) 0 8px / 16px 16px,
+    #FBF8F0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.thumb img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.thumb .fallback {
+  padding: 8px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--ig-caramel);
+}
+
+.pick {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 1;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  padding: 4px 8px 4px 6px;
+  border-radius: 999px;
+  background: rgba(255, 253, 247, 0.92);
+  border: 1px solid var(--ig-gold);
+}
+
+.pick input {
+  width: 17px;
+  height: 17px;
+  margin: 0;
+  accent-color: var(--ig-teal);
+}
+
+.pick .serial {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ig-teal);
+  font-variant-numeric: tabular-nums;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px 10px 10px;
+  min-width: 0;
+}
+
+.dims {
+  font-size: 13px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.tag {
+  padding: 1px 6px;
+  border-radius: 4px;
+  background: rgba(201, 169, 106, 0.22);
+  color: #6B5527;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.tag.kind { background: rgba(14, 92, 85, 0.14); color: var(--ig-teal); }
+.tag.pending { background: rgba(169, 104, 47, 0.16); color: var(--ig-caramel); }
+
+.status {
+  padding: 5px 10px;
+  border-top: 1px solid var(--ig-line);
+  font-size: 12px;
+  color: rgba(43, 42, 39, 0.68);
+  min-height: 28px;
+  word-break: break-word;
+}
+
+.card[data-state="done"] .status { color: var(--ig-teal); font-weight: 600; }
+.card[data-state="failed"] .status { color: var(--ig-caramel); }
+.card[data-state="converting"] .status,
+.card[data-state="downloading"] .status { color: #6B5527; }
+
+.empty {
+  padding: 40px 0;
+  text-align: center;
+  color: rgba(43, 42, 39, 0.6);
+}
+
+.empty[hidden] { display: none; }
+
+/* ---------------------------------------------------------------- 失败清单 */
+
+.errors {
+  margin: 0 20px 12px;
+  padding: 12px 16px;
+  background: #FBF1E7;
+  border: 1px solid var(--ig-caramel);
+  border-radius: 10px;
+}
+
+.errors[hidden] { display: none; }
+
+.errors-head {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.errors h2 { margin: 0; font-size: 15px; color: #6B3F16; }
+
+.error-list {
+  margin: 8px 0 0;
+  padding-left: 20px;
+  max-height: 220px;
+  overflow: auto;
+  font-size: 13px;
+  color: #6B3F16;
+}
+
+.error-list li { margin-bottom: 4px; word-break: break-all; }
+
+.error-url { opacity: 0.75; }
+
+/* ---------------------------------------------------------------- 底部下载条 */
+
+/*
+ * 普通 flex 行，不再用 position:sticky/fixed：它占住自己的高度，
+ * 内容再长也只会把上方的 .scroller 顶出滚动条，不会压到卡片上。
+ * 也不再给它加向上的投影：那道投影会让人以为它浮在网格之上（用户看到的"重合"），
+ * 实际它只是在文档流里接着内容区，一条细分隔线足够说明边界。
+ */
+.downloadbar {
+  flex: 0 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  background: var(--ig-surface);
+  border-top: 1px solid var(--ig-line);
+}
+
+.progress-area { flex: 1 1 320px; min-width: 240px; }
+
+.progress {
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(201, 169, 106, 0.26);
+  overflow: hidden;
+}
+
+.progress-fill {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: var(--ig-teal);
+  transition: width 160ms ease;
+}
+
+.progress-text {
+  margin: 6px 0 0;
+  font-size: 13px;
+  color: rgba(43, 42, 39, 0.76);
+}
+
+/* ---------------------------------------------------------------- 无障碍与深色模式 */
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}
+
+@media (max-width: 560px) {
+  .topbar, .toolbar, .downloadbar { padding: 12px 14px; }
+  .content { padding: 12px 14px 20px; }
+  .grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ig-cream: #16211F;
+    --ig-surface: #1D2B28;
+    --ig-ink: #EFEAD9;
+    --ig-line: rgba(233, 226, 205, 0.18);
+  }
+
+  .thumb { background-color: #223330; }
+  .thumb .fallback { color: #E0A96D; }
+  .scroller:focus-visible { outline-color: #9FD6CE; }
+  .field input[type="number"] { background: #223330; color: var(--ig-ink); }
+  .notice, .errors, .error-list { background: #2A2118; color: #F0CDA6; }
+  .errors h2 { color: #F0CDA6; }
+  .tag { background: rgba(201, 169, 106, 0.28); color: #F0DCB4; }
+  .tag.kind { background: rgba(120, 200, 190, 0.18); color: #9FD6CE; }
+  .tag.pending { background: rgba(224, 169, 109, 0.2); color: #E0A96D; }
+  .selected-count { color: rgba(239, 234, 217, 0.72); }
+  .status { color: rgba(239, 234, 217, 0.7); }
+}

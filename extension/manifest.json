@@ -1,0 +1,69 @@
+{
+  "manifest_version": 3,
+  "name": "图提取 / ImageGrab",
+  "version": "1.0.0",
+  "description": "在淘宝、天猫、京东、拼多多商家版商品详情页一键提取图片，全部转换为真实 PNG 后批量下载。",
+  "minimum_chrome_version": "120",
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage",
+    "downloads",
+    "contextMenus"
+  ],
+  "host_permissions": [
+    "*://*.taobao.com/*",
+    "*://*.tmall.com/*",
+    "*://*.jd.com/*",
+    "*://*.360buyimg.com/*",
+    "*://*.yangkeduo.com/*",
+    "*://*.pinduoduo.com/*",
+    "*://*.pddpic.com/*",
+    "*://*.alicdn.com/*",
+    "*://*.tbcdn.cn/*",
+    "*://*.taobaocdn.com/*",
+    "*://*.jdcdn.com/*",
+    "*://localhost/*",
+    "*://127.0.0.1/*"
+  ],
+  "background": {
+    "service_worker": "background/service-worker.js",
+    "type": "module"
+  },
+  "action": {
+    "default_title": "图提取 / ImageGrab（点击提取当前页图片）",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.taobao.com/*",
+        "*://*.tmall.com/*",
+        "*://*.jd.com/*",
+        "*://*.yangkeduo.com/*",
+        "*://*.pinduoduo.com/*",
+        "*://localhost/*",
+        "*://127.0.0.1/*"
+      ],
+      "js": [
+        "content/url-tools.js",
+        "content/collector.js",
+        "content/ui.js",
+        "content/content.js"
+      ],
+      "run_at": "document_idle",
+      "all_frames": false
+    }
+  ]
+}

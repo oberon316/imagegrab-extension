@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>本地素材页 · 模拟商品详情页</title>
+  <meta property="og:image" content="assets/wide.png">
+  <link rel="icon" type="image/png" href="assets/tiny.png">
+  <link rel="stylesheet" href="fixture.css">
+</head>
+<body>
+  <header class="fixture-banner">
+    <strong>本地测试素材页</strong>
+    <span>用于在没有真实店铺页面的情况下验证"图提取"的采集与下载。请通过
+      <code>node tests/local-server.mjs</code> 以 http://localhost:8787 打开，不要用 file://。</span>
+  </header>
+
+  <main>
+    <h1>【测试商品】岩灰双肩包 大容量</h1>
+    <p class="price">¥ 199.00</p>
+
+    <section class="gallery">
+      <h2>1. 主图（普通 img，同一张被引用两次用于验证去重）</h2>
+      <div class="row">
+        <img class="thumb" src="assets/sample.png" alt="主图 96x96" width="96" height="96">
+        <img class="thumb" src="assets/sample.png" alt="主图（重复引用） 96x96" width="96" height="96">
+      </div>
+
+      <h2>2. srcset / picture（当前生效项随窗口宽度变化）</h2>
+      <div class="row">
+        <img class="thumb" src="assets/sample.png"
+             srcset="assets/sample.png 1x, assets/wide.png 2x"
+             alt="srcset 图片 96x96 或 240x90" width="96">
+        <picture>
+          <source srcset="assets/wide.png" media="(min-width: 400px)">
+          <img class="thumb" src="assets/sample.png" alt="picture 图片" width="96">
+        </picture>
+      </div>
+
+      <h2>3. 懒加载（只有 data-src / data-original / data-lazy-src）</h2>
+      <div class="row">
+        <img class="thumb lazy" data-src="assets/lazy.png" alt="仅由 data-src 引用（未加载，应保持未加载状态）" width="96" height="96">
+        <img class="thumb lazy" data-src="assets/sample.bmp" alt="data-src 指向已加载的图（合并后不再是未加载）" width="96" height="96">
+        <img class="thumb lazy" data-original="assets/wide.png" alt="data-original 懒加载图（240x90）" width="96" height="96">
+        <img class="thumb lazy" data-lazy-src="assets/sample.png" alt="data-lazy-src 懒加载图（96x96）" width="96" height="96">
+      </div>
+
+      <h2>4. 非 PNG 源图（BMP / JPEG / WebP，下载时必须真正转换成 PNG 编码）</h2>
+      <div class="row">
+        <img class="thumb" src="assets/sample.bmp" alt="BMP 源图 96x96" width="96" height="96">
+        <img class="thumb" src="assets/sample.jpg" alt="JPEG 源图 96x96" width="96" height="96">
+        <img class="thumb" src="assets/sample.webp" alt="WebP 源图 96x96" width="96" height="96">
+      </div>
+
+      <h2>5. CSS 背景图（单张 / 多重 / 与渐变混写 / image-set）</h2>
+      <div class="row">
+        <div class="bg bg-single" role="img" aria-label="单张背景图"></div>
+        <div class="bg bg-multi" role="img" aria-label="多重背景图"></div>
+        <div class="bg bg-gradient" role="img" aria-label="渐变与背景图混写"></div>
+        <div class="bg bg-imageset" role="img" aria-label="image-set 背景图"></div>
+      </div>
+
+      <h2>6. 视频封面、内联小图、坏链接、隐藏图片</h2>
+      <div class="row">
+        <video class="thumb" poster="assets/sample.png" width="96" height="96" controls muted></video>
+        <img class="thumb" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="1x1 内联占位图（默认被过滤）">
+        <img class="thumb" src="missing-file.png" alt="坏链接（应显示无法预览，且不影响其它结果）">
+        <img class="thumb" src="assets/tiny.png" alt="8x8 小图（默认被最小尺寸筛选排除）" width="8" height="8">
+        <img class="thumb" src="assets/tiny.png" style="display:none" alt="隐藏的 8x8 小图">
+      </div>
+
+      <h2>7. 动态注入（2 秒后自动追加，用于验证"支持动态页面"）</h2>
+      <div class="row" id="dynamic-slot"></div>
+    </section>
+
+    <section class="controls">
+      <h2>扩展行为测试按钮</h2>
+      <p>这三个按钮只用于测试扩展自身的动态适配，和图片采集无关。</p>
+      <button type="button" id="remove-fab">模拟页面框架移除右下角浮层（1.5 秒内应自动补挂）</button>
+      <button type="button" id="leave-detail">模拟 SPA 跳到非详情页地址（浮层应自动隐藏）</button>
+      <button type="button" id="back-detail">回到详情页地址（浮层应重新出现）</button>
+    </section>
+
+    <section class="expect">
+      <h2>人工核对清单</h2>
+      <p>点击扩展浮层的"获取图片"后，图库中的条目应当满足：</p>
+      <ul>
+        <li><code>assets/sample.png</code> 只出现 <strong>一次</strong>（第 1 节的重复引用被合并）</li>
+        <li><code>assets/sample.bmp</code> 只出现 <strong>一条</strong> —— 第 3 节（data-src）与第 4 节（已加载的 img）指向同一地址，合并后标记为已加载</li>
+        <li><code>assets/lazy.png</code> 是唯一只被 data-src 引用、页面上没有已加载同地址的图片，因此它应保持 <strong>未加载</strong> 标签，顶部提示条也应给出未加载数量</li>
+        <li>第 4 节的 BMP / JPEG / WebP 下载后都应是<strong>真正的 PNG 编码</strong>（用看图工具或十六进制编辑器确认文件头是 <code>89 50 4E 47</code>）</li>
+        <li><code>assets/wide.png</code>：来自 srcset 候选、picture、data-original、多重背景、og:image</li>
+        <li><code>assets/tiny.png</code>：来自 image-set、favicon；把"最小宽/高"设为 10 后应从列表消失</li>
+        <li>第 3 节里指向已加载地址的三张图（<code>sample.bmp</code> / <code>wide.png</code> / <code>sample.png</code>）合并后不再带"未加载"标签 —— 同一地址只要有一处加载成功就算已加载，这是刻意的合并规则</li>
+        <li>1x1 的 GIF 内联图默认不出现；勾选"包含内联小图"并重新扫描后出现</li>
+        <li><code>missing-file.png</code> 出现在列表里但缩略图显示"无法预览"</li>
+        <li>第 7 节的动态图片只有点"重新扫描本页"后才会出现</li>
+      </ul>
+    </section>
+  </main>
+
+  <script src="fixture.js"></script>
+</body>
+</html>

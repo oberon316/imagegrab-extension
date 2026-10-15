@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>图提取 ImageGrab · 把页面图片，整齐收进图库</title>
+  <meta name="description" content="用图提取 ImageGrab 集中预览页面图片，按尺寸筛选、自由勾选，批量保存为 PNG。下载 ZIP，解压后手动加载到 Chrome。">
+  <meta name="theme-color" content="#254B40">
+  <link rel="icon" href="./assets/icon128.png" type="image/png">
+  <link rel="stylesheet" href="./assets/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到正文</a>
+  <header class="site-header"><div class="container header-inner">
+    <a class="brand" href="./index.html" aria-label="图提取首页"><img src="./assets/icon128.png" width="38" height="38" alt=""><span>图提取 <small>ImageGrab</small></span></a>
+    <button class="nav-toggle" type="button" aria-label="打开导航菜单" aria-expanded="false" aria-controls="site-nav"><span></span><span></span></button>
+    <nav class="nav" id="site-nav" aria-label="主导航"><a href="#features">功能</a><a href="#showcase">真实界面</a><a href="#install">安装指南</a><a href="#faq">常见问题</a><a class="nav-github" href="https://github.com/oberon316/imagegrab-extension" target="_blank" rel="noopener noreferrer">GitHub ↗</a></nav>
+    <a class="btn btn-primary header-download" href="./downloads/imagegrab-v1.0.0.zip" download="imagegrab-v1.0.0.zip" data-download>下载插件 <span aria-hidden="true">↓</span></a>
+  </div></header>
+  <main id="main">
+    <section class="hero" aria-labelledby="hero-title"><div class="container hero-grid">
+      <div class="hero-copy"><p class="eyebrow"><i class="status-dot" aria-hidden="true"></i> 一个轻巧的 CHROME 图片工具</p><h1 id="hero-title">把页面图片，<br><span>整齐收进图库。</span></h1><p class="hero-description">不用一张张另存。把页面中的图片集中起来，<br class="desktop-break">选好需要的，一次保存为 PNG。</p>
+        <div class="hero-actions"><a class="btn btn-primary btn-large" href="./downloads/imagegrab-v1.0.0.zip" download="imagegrab-v1.0.0.zip" data-download><span aria-hidden="true">↓</span> 下载插件 ZIP</a><a class="text-link" href="#install">看看怎么安装 ↗</a></div>
+        <div class="release-meta"><span data-release="version">v1.0.0</span><span data-release="humanBytes">52.3 KB</span><span>Chrome 120+</span></div><p class="hero-note">本地处理 · 源码公开 · 解压后手动加载</p>
+      </div>
+      <figure class="hero-visual"><div class="visual-topline"><span class="small-label">IMAGEGRAB / 图片工作台</span><span class="visual-badge">实际插件界面</span></div>
+        <button class="screenshot-button" type="button" data-lightbox data-src="./assets/screenshot-gallery-grid.png" data-alt="图提取实际图库：缩略图、尺寸筛选与批量下载" aria-label="放大查看插件图库截图"><img src="./assets/screenshot-gallery-grid.png" width="2559" height="1363" alt="图提取实际图库，包含图片网格、勾选操作和下载结果" fetchpriority="high"><span class="zoom-hint">点击放大 ↗</span></button>
+        <figcaption><span><i class="status-dot" aria-hidden="true"></i> 从采集到保存，在一个图库里完成</span><span class="visual-format">.PNG</span></figcaption><span class="visual-stamp" aria-hidden="true">少点几次，<br>多省一点时间。</span>
+      </figure>
+    </div><div class="container workflow-strip" aria-label="使用流程"><div><span class="step-index">01</span><p><strong>采集页面</strong><span>点击「获取图片」</span></p></div><div><span class="step-index">02</span><p><strong>挑选所需</strong><span>预览、筛选与勾选</span></p></div><div><span class="step-index">03</span><p><strong>批量保存</strong><span>统一导出 PNG</span></p></div></div></section>
+
+    <section class="section" id="features" aria-labelledby="features-title"><div class="container feature-layout">
+      <div class="section-intro"><p class="eyebrow">刚刚好的功能</p><h2 id="features-title">收图这件事，<br>可以更顺手。</h2><p>为商品图片整理和日常素材收集准备。<br>把重复操作交给工具，把选择留给你。</p><a class="text-link" href="#showcase">查看插件界面 ↗</a></div>
+      <div class="feature-list">
+        <article class="feature-row"><span class="feature-number">01 / 收集</span><div><h3>分散的图片，集中预览</h3><p>读取图片标签、懒加载地址和 CSS 背景图，汇总到独立图库，并按图片地址去重。</p></div><span class="feature-symbol" aria-hidden="true">⌘</span></article>
+        <article class="feature-row"><span class="feature-number">02 / 挑选</span><div><h3>先筛选，再决定保存什么</h3><p>查看缩略图与尺寸，设置最小宽高。全选、反选、单张勾选，按自己的需要整理。</p></div><span class="feature-symbol" aria-hidden="true">✓</span></article>
+        <article class="feature-row"><span class="feature-number">03 / 保存</span><div><h3>统一 PNG，文件自动编号</h3><p>将可解码图片转换为 PNG，批量保存为「商品图_001.png」。下载进度和失败原因清楚可见。</p></div><span class="feature-symbol" aria-hidden="true">↓</span></article>
+      </div>
+    </div></section>
+
+    <section class="section section-tinted" id="showcase" aria-labelledby="showcase-title"><div class="container">
+      <div class="section-heading"><div><p class="eyebrow">先看看，再下载</p><h2 id="showcase-title">界面清楚，操作有数。</h2></div><p>现有插件实拍截图。<br>点击图片可查看完整细节。</p></div>
+      <div class="showcase-grid">
+        <figure class="showcase-card"><figcaption><span class="small-label">01 / 图库预览</span><h3>需要的图片，一眼选中。</h3><p>缩略图、图片尺寸和选中数量，在同一个页面查看。</p></figcaption><button class="screenshot-button" type="button" data-lightbox data-src="./assets/screenshot-gallery-grid.png" data-alt="实际图库界面：图片网格、尺寸筛选与勾选" aria-label="放大图库预览截图"><img src="./assets/screenshot-gallery-grid.png" width="2559" height="1363" alt="实际插件图库预览" loading="lazy"><span class="zoom-hint">查看大图 ↗</span></button></figure>
+        <figure class="showcase-card"><figcaption><span class="small-label">02 / 下载反馈</span><h3>保存到哪一步，看得见。</h3><p>显示批量处理进度与结果，单张失败不影响其他图片。</p></figcaption><button class="screenshot-button" type="button" data-lightbox data-src="./assets/screenshot-gallery-download.png" data-alt="实际下载界面：勾选图片与批量下载操作区" aria-label="放大批量下载截图"><img src="./assets/screenshot-gallery-download.png" width="2559" height="1300" alt="实际插件批量下载界面" loading="lazy"><span class="zoom-hint">查看大图 ↗</span></button></figure>
+      </div>
+    </div></section>
+
+    <section class="section install-section" id="install" aria-labelledby="install-title"><div class="container">
+      <div class="section-heading"><div><p class="eyebrow">从这里开始</p><h2 id="install-title">四步装好，开始收图。</h2></div><p>下载的是 ZIP 压缩包。<br>解压后在浏览器中手动加载，无需构建工具。</p></div>
+      <ol class="install-steps">
+        <li><span class="install-number">01</span><h3>下载并解压</h3><p>下载下方安装包，解压到一个固定文件夹。安装后请保留这个文件夹。</p></li>
+        <li><span class="install-number">02</span><h3>打开扩展管理</h3><p>在 Chrome 地址栏输入：</p><button class="code-copy" type="button" data-copy="chrome://extensions" aria-label="复制 Chrome 扩展管理地址"><code>chrome://extensions</code><span>复制</span></button></li>
+        <li><span class="install-number">03</span><h3>开启开发者模式</h3><p>在扩展管理页面找到「开发者模式」，打开开关。</p></li>
+        <li><span class="install-number">04</span><h3>加载解压后的插件</h3><p>点击「加载已解压的扩展程序」，选择直接包含 <code>manifest.json</code> 的文件夹。</p></li>
+      </ol>
+      <div class="download-panel"><div class="download-identity"><img src="./assets/icon128.png" width="52" height="52" alt=""><div><h3>图提取 <span>ImageGrab</span></h3><p><span data-release="version">v1.0.0</span><span class="meta-separator">/</span><span data-release="humanBytes">52.3 KB</span><span class="meta-separator">/</span>Chrome 120+</p></div></div><a class="btn btn-primary btn-large" href="./downloads/imagegrab-v1.0.0.zip" download="imagegrab-v1.0.0.zip" data-download><span aria-hidden="true">↓</span> 下载插件 ZIP</a></div>
+      <details class="checksum-details"><summary>需要核对文件？查看 SHA-256 校验值</summary><div class="checksum-body"><code id="sha256" data-release="sha256">7ea5e7c8d6468508d9996148ec8bde1703dbaa3b0914f40d925c3a8332c70e54</code><button class="btn btn-small btn-outline-light" type="button" data-copy-ref="sha256">复制校验值</button><p>Windows 校验命令：<code>certutil -hashfile imagegrab-v1.0.0.zip SHA256</code></p></div></details>
+    </div></section>
+
+    <section class="section" id="faq" aria-labelledby="faq-title"><div class="container help-layout">
+      <aside class="support-note" id="support"><p class="eyebrow">使用前，了解一下</p><h2>轻巧，也有边界。</h2><p class="support-label">已配置页面适配规则</p><div class="platforms"><span>淘宝 / 天猫</span><span>京东</span><span>拼多多商家版</span></div><p>具体店铺的页面结构、登录状态和图片权限可能不同，采集与下载效果以实际使用为准。</p><hr><h3>处理在本地完成</h3><p>预览和下载会请求图片原站。扩展不将图片另行上传到额外的处理服务。</p><a class="text-link" href="./privacy.html">查看权限与隐私说明 ↗</a><p class="support-footnote">仓库包含自动化测试与测试记录；本地模拟页面的测试结果不代表所有真实店铺均已验证。</p></aside>
+      <div class="faq-column"><p class="eyebrow">常见问题</p><h2 id="faq-title">你可能还想知道。</h2><div class="faq-list">
+        <details class="faq-item"><summary>下载后，怎样安装到浏览器？</summary><p>先解压 ZIP，再打开 <code>chrome://extensions</code>，开启开发者模式，点击「加载已解压的扩展程序」。选中直接包含 <code>manifest.json</code> 的目录。网页下载按钮不会直接安装扩展。</p></details>
+        <details class="faq-item"><summary>为什么有些图片没有提取到？</summary><p>图片可能还未加载。请回到原页面向下滚动，再点击「重新扫描本页」。当前版本采集顶层页面，无法保证取得 iframe 内或尚未出现在页面中的图片。</p></details>
+        <details class="faq-item"><summary>下载出来的图片是什么格式？</summary><p>统一为 PNG。JPG、WebP 等可解码图片会重新编码；原本已是 PNG 的图片可以保留原始字节。动态图片转换后保存为静态图片。</p></details>
+        <details class="faq-item"><summary>为什么预览正常，下载却失败？</summary><p>原站访问限制、网络异常或图片域名未获扩展授权，都可能导致取图失败。请查看图库中的错误信息，确认原因后重试。</p></details>
+        <details class="faq-item"><summary>可以在 Edge 或其他浏览器使用吗？</summary><p>当前清单要求 Chrome 120 或更新版本。Edge 可在 <code>edge://extensions</code> 尝试加载，具体兼容性需要自行验证。当前没有提供 Firefox 和 Safari 安装包。</p></details>
+        <details class="faq-item"><summary>更新插件后，需要重新安装吗？</summary><p>下载新版本并解压到固定目录，在扩展管理页重新加载。更新后刷新正在使用的商品页面。不要删除或移动浏览器正在加载的插件文件夹。</p></details>
+      </div></div>
+    </div></section>
+    <section class="closing-section"><div class="container closing-inner"><div><p class="eyebrow">整理图片，从少一点重复开始。</p><h2>下一次收图，试试图提取。</h2></div><a class="text-link" href="https://github.com/oberon316/imagegrab-extension" target="_blank" rel="noopener noreferrer">查看源码与反馈问题 ↗</a></div></section>
+  </main>
+  <footer class="site-footer"><div class="container footer-inner"><a class="brand" href="./index.html"><img src="./assets/icon128.png" width="30" height="30" alt=""><span>图提取 <small>ImageGrab</small></span></a><p>© <span id="year">2026</span> ImageGrab</p><div class="footer-links"><a href="./privacy.html">隐私说明</a><a href="https://github.com/oberon316/imagegrab-extension" target="_blank" rel="noopener noreferrer">GitHub ↗</a><a href="#main">回到顶部 ↑</a></div></div></footer>
+  <dialog class="lightbox" aria-label="插件截图大图预览"><button class="lb-close" type="button" aria-label="关闭图片预览">关闭 ×</button><figure><img alt=""><figcaption></figcaption></figure></dialog>
+  <div class="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+  <script src="./assets/main.js"></script>
+</body>
+</html>

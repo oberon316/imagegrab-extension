@@ -2,10 +2,10 @@
 
 | 项目 | 内容 |
 | --- | --- |
-| 文档版本 | v0.1（草案） |
+| 文档版本 | v0.2 |
 | 日期 | 2026-10-15 |
 | 对应需求 | [REQUIREMENTS.md](REQUIREMENTS.md) |
-| 当前进度 | M0 进行中（仓库骨架与文档已完成，代码未开始） |
+| 当前进度 | M0、M1 完成；M2、M3、M6 的关键部分完成并已在真实 Chrome 中验证；M5 的脚本与官网页面已完成（只剩开启 GitHub Pages 一步）；M4 未开始 |
 
 工作量为单人开发的**粗略估算**，用于排序而非承诺。每个里程碑结束时都必须能在浏览器里看到可验证的结果，不做"写完一大坨再联调"。
 
@@ -15,15 +15,15 @@
 
 | 里程碑 | 目标 | 主要产出 | 预估 | 状态 |
 | --- | --- | --- | --- | --- |
-| M0 | 仓库骨架与工程约定 | 目录、`.gitignore`、README、测试记录模板、需求与计划文档 | 0.5 天 | 进行中 |
-| M1 | 能采到图片并看见 | `manifest.json`、内容脚本采集内核、popup 列表 | 3 天 | 未开始 |
-| M2 | 能挑图 | 侧边栏面板、筛选、网格、选择、元素高亮 | 3 天 | 未开始 |
-| M3 | 能存下来 | 下载器、路径与命名模板、进度与失败清单、设置页 | 2.5 天 | 未开始 |
+| M0 | 仓库骨架与工程约定 | 目录、`.gitignore`、README、测试记录模板、需求与计划文档 | 0.5 天 | 已完成 |
+| M1 | 能采到图片并看见 | `manifest.json`、内容脚本采集内核、图库列表 | 3 天 | 已完成（界面形态按用户要求改为 `gallery.html`，未做 popup） |
+| M2 | 能挑图 | 图库页面的筛选、网格、选择 | 3 天 | 部分完成（见下方交付状态） |
+| M3 | 能存下来 | 下载器、命名、进度与失败清单 | 2.5 天 | 部分完成（见下方交付状态） |
 | M4 | 能截图 | 可视区域截图、整页拼接、固定元素处理 | 3 天 | 未开始 |
-| M5 | 能发布 | 打包与校验脚本、官网、GitHub Pages、发布流程跑通 | 2.5 天 | 未开始 |
-| M6 | 能长期用 | i18n、可访问性、虚拟化、边界场景打磨 | 2 天 | 未开始 |
+| M5 | 能发布 | 打包与校验脚本、官网、发布流程 | 2.5 天 | 部分完成（脚本与官网三个页面已就绪；剩 GitHub Pages 未开启、更新日志页与官网深色模式两个 P1 项） |
+| M6 | 能长期用 | i18n、可访问性、虚拟化、边界场景打磨 | 2 天 | 部分完成（见下方交付状态） |
 
-M1–M3 完成即构成"首个可用版本"（对应 REQUIREMENTS §10 的放行条件）。M4、M5 可在 M3 之后并行推进。
+M1–M3 的已交付部分构成"首个可用版本"，并已在真实 Chrome 中逐条验证（见 [TESTING.md](TESTING.md)）。
 
 ---
 
@@ -172,18 +172,18 @@ M1–M3 完成即构成"首个可用版本"（对应 REQUIREMENTS §10 的放行
 
 **任务**
 
-| 编号 | 任务 | 对应需求 | 产出文件 |
-| --- | --- | --- | --- |
-| M5-1 | `check.mjs`：按 REQUIREMENTS §7 的 10 项清单逐条校验，失败非 0 退出 | FR-900 | `scripts/check.mjs` |
-| M5-2 | `package.mjs`：白名单打包 `extension/`，生成 `imagegrab-v<版本>.zip`、`SHA256SUMS.txt`、`downloads/manifest.json` | FR-803 | `scripts/package.mjs` |
-| M5-3 | `serve.mjs`：本地预览 `docs/` 与 `tests/fixtures/` | — | `scripts/serve.mjs`、`tests/local-server.mjs` |
-| M5-4 | 官网首页：功能、安装指引、下载按钮、常见问题 | FR-802/803 | `docs/index.html`、`docs/assets/style.css` |
-| M5-5 | 隐私政策页，逐条解释权限用途 | FR-804 | `docs/privacy.html` |
-| M5-6 | 更新日志页 | FR-805 | `docs/changelog.html` |
-| M5-7 | 响应式 + 深色模式 + 无外部依赖 | FR-801/806/807 | `docs/assets/` |
-| M5-8 | 404 页与 `.nojekyll` | FR-808 | `docs/404.html`、`docs/.nojekyll` |
-| M5-9 | 开启 GitHub Pages（`main` 分支 `/docs` 目录）并验证线上可访问 | FR-809 | 仓库设置 |
-| M5-10 | 写出发布流程清单：改版本号 → check → package → 更新官网 → 提交 → 打 tag | README | `README.md`、`PLAN.md` |
+| 编号 | 任务 | 对应需求 | 产出文件 | 状态 |
+| --- | --- | --- | --- | --- |
+| M5-1 | `check.mjs`：按 REQUIREMENTS §7 的 10 项清单逐条校验，失败非 0 退出 | FR-900 | `scripts/check.mjs` | 已完成（18 项，另含"官网与发布包一致"） |
+| M5-2 | `package.mjs`：白名单打包 `extension/`，生成 `imagegrab-v<版本>.zip`、`SHA256SUMS.txt`、`downloads/manifest.json` | FR-803 | `scripts/package.mjs` | 已完成（自写 ZIP 容器，零依赖） |
+| M5-3 | `serve.mjs`：本地预览 `docs/` 与 `tests/fixtures/` | — | `scripts/serve.mjs`、`tests/local-server.mjs` | 已完成 |
+| M5-4 | 官网首页：功能、安装指引、下载按钮、常见问题 | FR-802/803 | `docs/index.html`、`docs/assets/style.css` | 已完成 |
+| M5-5 | 隐私政策页，逐条解释权限用途 | FR-804 | `docs/privacy.html` | 已完成，并与 `manifest.json` 的 5 项权限、13 条主机权限逐条对齐 |
+| M5-6 | 更新日志页 | FR-805 | `docs/changelog.html` | 未做（当前只有 1.0.0 一个版本，尚无变更可记，见 `docs/README.md` 的说明） |
+| M5-7 | 响应式 + 深色模式 + 无外部依赖 | FR-801/806/807 | `docs/assets/` | 部分完成：响应式（4 档断点，含 360px）与零外部依赖（1 个 CSS、1 个 JS、无 CDN/字体/统计）已完成；**深色模式未做**（全站只有 `@media(prefers-reduced-motion)`，没有 `prefers-color-scheme`） |
+| M5-8 | 404 页与 `.nojekyll` | FR-808 | `docs/404.html`、`docs/.nojekyll` | 已完成 |
+| M5-9 | 开启 GitHub Pages（`main` 分支 `/docs` 目录）并验证线上可访问 | FR-809 | 仓库设置 | **未做**，需要在仓库设置里手动开启后再验证一次 |
+| M5-10 | 写出发布流程清单：改版本号 → check → package → 更新官网 → 提交 → 打 tag | README | `README.md`、`PLAN.md` | 已完成（`README.md` 的"发布流程"8 步） |
 
 **关于 ZIP 打包的实现方式**
 
@@ -193,7 +193,11 @@ M1–M3 完成即构成"首个可用版本"（对应 REQUIREMENTS §10 的放行
 2. 用 Node 内置 `zlib` 自行写 ZIP 容器（本地文件头 + 中央目录）—— 无依赖，约 120 行，且打包内容是可控的本地文件，不需要压缩率优化。
 3. 调用系统 `Compress-Archive`（Windows）/ `zip`（macOS/Linux）—— 简单但跨平台分支维护成本高。
 
-**建议选 2**：既保持零依赖，又能精确控制白名单（安全收益，对应 §12 的凭据泄漏风险）。若实现成本被证明高于预期，退回到方案 1，并在 README 里说明 `node_modules` 仅用于开发。
+**实际选了 2**：`scripts/lib/zip.mjs` 是自写的 ZIP 容器（本地文件头 + 中央目录 + CRC32），零依赖、白名单可控，`package.mjs` 打完包会立刻读回来逐条校验 CRC。
+
+> 一个遗留的不一致：**线上这份 1.0.0 安装包并不是 `package.mjs` 打的**，而是用 PowerShell 的 `Compress-Archive -Path '.\extension\*'` 直接压的，因此包内多一个 `extension/README.md`（21 个条目，`package.mjs` 的白名单产出是 20 个，会跳过 `.md`）。
+> 两种包都能被"加载已解压的扩展程序"识别，所以不影响使用，但只有 `package.mjs` 的产出是可复现的。
+> **2026-10-15 决定不重打**：重打只会改变已对外展示的 SHA-256，换来的仅是包内少一个说明文件；从下一个版本起直接用 `package.mjs` 产出，届时两者即自然统一。
 
 **技术要点**
 
@@ -202,6 +206,10 @@ M1–M3 完成即构成"首个可用版本"（对应 REQUIREMENTS §10 的放行
 - GitHub Pages 默认启用 Jekyll，会忽略以下划线开头的文件；放一个空的 `.nojekyll` 可避免该类问题。
 
 **验收**：下载官网 ZIP → 解压 → 加载已解压的扩展程序 → 功能正常；`check.mjs` 在版本号不一致时确实失败（故意改错验证一次）。
+
+> 2026-10-15 的实测：把首页上的体积 `52.3 KB` 故意改回上一版的 `46.6 KB`，`check.mjs` 报出
+> "官网首页没有出现当前发布包的安装包体积 52.3 KB，可能还挂着上一版"并以退出码 1 结束，改回后恢复通过。
+> 这条检查覆盖版本号、体积、SHA-256 与下载按钮文件名四项，任意一项漏改都会失败。
 
 ---
 
@@ -239,30 +247,49 @@ M0 ──> M1 ──> M2 ──> M3 ──┬──> M6
 
 | 层级 | 手段 | 何时执行 |
 | --- | --- | --- |
-| 静态校验 | `node scripts/check.mjs`（manifest、引用文件、权限、i18n key、版本一致性） | 每次提交前 |
-| 手工功能测试 | `tests/fixtures/` 七个场景页 + 记录到 TESTING.md | 每个里程碑结束时 |
-| 真实站点巡检 | 选 3~5 个典型真实站点（电商详情页、图片站、新闻长文、含跨源 iframe 的页面） | M3、M4 完成后各一次 |
+| 静态校验 | `node scripts/check.mjs`（manifest、引用文件、权限、配色与消息常量一致性、SW 是否用了 DOM API、ZIP 可解压且校验值匹配、官网页面与当前发布包是否一致） | 每次提交前 |
+| 逻辑测试 | `node --test "tests/*.test.mjs"`（DOM 桩，采集内核与工具函数） | 每次提交前 |
+| 真实浏览器端到端 | `node tests/browser-e2e.mjs`（自动拉起临时 Chrome，加载扩展跑完整流程并断言） | 每个里程碑结束时 |
+| 真实站点巡检 | 选 3~5 个典型真实站点（电商详情页、图片站、新闻长文、含跨源 iframe 的页面），手工并记录到 TESTING.md | M3、M4 完成后各一次 |
 | 回归 | 上一个里程碑的用例重跑一遍 | 每个里程碑开始时 |
 
-暂不引入自动化 UI 测试：扩展的手工验证成本低于搭建 Puppeteer 扩展测试环境的成本，且场景页本身就是可复现的。若 M6 之后仍有回归遗漏，再评估引入自动化。
+自动化到什么程度：**能在真实浏览器里断言的部分已经自动化**（16 条 E2E），
+浏览器 UI 本身（工具栏图标点击、右键菜单、角标数字）和真实店铺页面仍必须手工验证，
+这些在 [TESTING.md](TESTING.md) 第五节逐条列出并标注"未执行"，不冒充通过。
 
 ---
 
 ## 当前状态与下一步
 
-**已完成（M0）**
+### 已交付并在真实浏览器中验证
 
-- 目录骨架：`extension/`、`docs/`、`docs/downloads/`、`scripts/`、`tests/`
-- `.gitignore`（含根锚定 `/downloads/` 与 `!docs/downloads/*.zip` 的例外规则）
-- `README.md`、`TESTING.md`、`REQUIREMENTS.md`、`PLAN.md`
-- 各子目录的 `README.md` 占位说明
-- Git 仓库初始化，主分支 `main`，含首次提交
+`extension/` 是一个可加载运行的 MV3 扩展（零构建，源码即运行代码）。逐条证据见 [TESTING.md](TESTING.md)。
 
-**下一步（M1-1 起）**
+| 里程碑 | 已交付 | 验证方式 |
+| --- | --- | --- |
+| M0 | 目录骨架、`.gitignore`、四份文档、各子目录 README、Git 初始化 | 静态检查 |
+| M1 | `manifest.json`、真实 PNG 图标、采集内核（`img`/`currentSrc`/`srcset`/`data-src`/`data-lazy-src`/背景图/`poster`/`og:image`）、内容脚本入口与消息协议、后台路由与角标 | E2E-01、E2E-05；`collector.test.mjs` 11 例 |
+| M2 | 去重与来源合并、最小宽高筛选、未加载图片标记与提示、全选/反选/取消/点缩略图选择、跨筛选保留选择、"重新扫描本页"、结果落在 `chrome.storage.session` | E2E-05、E2E-07、E2E-08、E2E-09、E2E-14、E2E-15 |
+| M3 | 下载调度（并发、超时、`onChanged` 判定完成）、命名 `商品图_001.png`、进度与逐项状态、失败清单与"重试失败项"、右键菜单入口、单张失败不中断整批 | E2E-11、E2E-12、E2E-16 |
+| M5（部分） | `check.mjs`（18 项）、`package.mjs`（自写 ZIP 容器，零依赖）、`serve.mjs`、发布包与 SHA-256；官网三个页面（`index.html` / `privacy.html` / `404.html`）、样式与脚本、`.nojekyll`、界面截图与图标 | `check.mjs` 逐项；官网 30 处内链经本地 HTTP 实测无断链、下载按钮与发布包一致（TESTING.md 第八节）；解压后的安装包另跑一轮 18 条 E2E（针对上一版 0.1.0 包） |
+| M6（部分） | ARIA 标注与 `aria-live`、焦点环、缩略图分片渲染（每批 200 条） | `check.mjs`、E2E-08 |
 
-1. 确认 REQUIREMENTS §13 的待确认决策（尤其：首发渠道、界面入口、是否零构建、许可证）
-2. 生成 `extension/manifest.json` 与图标占位
-3. 实现 `collector.js` 与 `content-entry.js`，先在 `fixture-basic.html` 上跑通
-4. 用 popup 把结果显示出来
+### 尚未实现
 
-**暂不生成任何应用代码**——等 §13 的决策确认后再开始 M1。
+| 项 | 说明 |
+| --- | --- |
+| M2 的排序、URL 关键词包含/排除、元素高亮定位、大图预览页、同源 iframe 递归采集 | 未实现。用户当前需求未包含这些 |
+| M2-7 自动滚动驱动懒加载 | 未实现，改为提示用户手动滚动后点"重新扫描本页"（TESTING.md LIM-01） |
+| M3 的下载路径模板、独立设置页、可选主机权限申请 | 未实现。筛选默认值直接存在图库页面并在 `chrome.storage.local` 持久化；非授权域名改为给出可读提示（TESTING.md LIM-08） |
+| M4 截图与整页长图 | 未开始 |
+| M5 的更新日志页（`docs/changelog.html`，FR-805） | 未生成：当前只有 1.0.0 一个版本，没有变更可记。发布第二个版本时再补 |
+| M5 的官网深色模式（FR-807，P1） | 未实现：`docs/assets/style.css` 里没有 `prefers-color-scheme`，而写死的色值散落在 `:root` 变量之外，要先做一次样式重构（TESTING.md LIM-10） |
+| M5-9 开启 GitHub Pages（FR-809，P0） | 需要在仓库设置里手动开启，并到线上验证一次下载按钮与 `.nojekyll` |
+| M6 的完整 i18n（`_locales`）、网格虚拟化 | 未实现，界面文案为中文硬编码 |
+
+### 下一步建议
+
+1. 在仓库设置里开启 GitHub Pages（`main` 分支 `/docs` 目录），然后按 TESTING.md 的 TC-WEB-LIVE-01 到线上验证一次：这一步做完，M5 就只剩"更新日志页"和"官网深色模式"两个 P1 项。
+2. 把 1.0.0 的安装包按 `scripts/package.mjs` 重打一遍，替换掉现在这份 `Compress-Archive` 产物，让发布物与发布脚本一致（详见 TESTING.md 第八节）。**2026-10-15 决定暂不重打**：两种包都能正常加载，差异只是包内多一个 `extension/README.md`；等 1.0.1 或下一个版本发布时，直接用 `package.mjs` 产出即可，不必为此单独改一次已发布的校验值。
+3. 在真实的淘宝/天猫/京东/拼多多详情页各跑一次（TESTING.md 第五节的手工用例），确认详情页识别规则与长图采集效果。
+4. 决定许可证，然后按 README 的发布流程打标签。

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>图提取 · 图片图库</title>
+  <link rel="icon" type="image/png" href="../icons/icon32.png">
+  <link rel="stylesheet" href="gallery.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <img class="logo" src="../icons/icon48.png" alt="" width="40" height="40">
+      <div class="brand-text">
+        <h1>图提取</h1>
+        <p class="source" id="source-line" title="">正在读取采集结果…</p>
+      </div>
+    </div>
+    <div class="topbar-actions">
+      <span class="meta" id="scan-meta"></span>
+      <button type="button" class="ghost" id="rescan-button">重新扫描本页</button>
+    </div>
+  </header>
+
+  <!--
+    工具条也占外壳里自己的一行，不在滚动容器内部。
+    早期版本把它放进内容区并加 position: sticky：滚动时它就钉在内容区顶端，
+    卡片从它下面滑过 —— 截图里看到的就是"工具条和图片重合"。
+    放在外壳里它照样一直可见（这是 sticky 唯一的好处），但没有任何像素会盖住网格。
+  -->
+  <section class="toolbar" aria-label="筛选与选择">
+    <div class="filter-group">
+      <label class="field">
+        <span>最小宽</span>
+        <input type="number" id="min-width" min="0" step="10" inputmode="numeric" value="0">
+      </label>
+      <label class="field">
+        <span>最小高</span>
+        <input type="number" id="min-height" min="0" step="10" inputmode="numeric" value="0">
+      </label>
+      <label class="field checkbox">
+        <input type="checkbox" id="include-inline">
+        <span>包含内联小图</span>
+      </label>
+    </div>
+
+    <div class="select-group">
+      <button type="button" class="ghost" id="select-all">全选</button>
+      <button type="button" class="ghost" id="select-invert">反选</button>
+      <button type="button" class="ghost" id="select-none">取消选择</button>
+      <span class="selected-count">已选 <strong id="selected-count">0</strong> / <span id="visible-count">0</span> 张</span>
+    </div>
+  </section>
+
+  <!--
+    内容区自己滚动（整页不滚动），所以给它 tabindex：Tab 能进入，
+    PageDown / 空格 / 方向键才有作用对象，键盘用户不会因为没有滚动条而卡住。
+    它上下各留一条页面底色的缝，截断的卡片不会正好贴住工具条或下载条。
+  -->
+  <div class="scroller" id="scroller" tabindex="0" role="region" aria-label="图片列表">
+    <div class="notice" id="notice" role="status" hidden></div>
+
+    <main class="content">
+      <ul class="grid" id="grid"></ul>
+      <p class="empty" id="empty-state" hidden>当前筛选条件下没有图片。</p>
+    </main>
+
+    <section class="errors" id="error-panel" hidden aria-label="失败清单">
+      <div class="errors-head">
+        <h2>失败清单（<span id="error-count">0</span>）</h2>
+        <button type="button" class="ghost" id="retry-button">重试失败项</button>
+      </div>
+      <ul class="error-list" id="error-list"></ul>
+    </section>
+  </div>
+
+  <footer class="downloadbar">
+    <div class="progress-area">
+      <div class="progress" id="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+        <span class="progress-fill" id="progress-fill"></span>
+      </div>
+      <p class="progress-text" id="progress-text">尚未开始下载</p>
+    </div>
+    <button type="button" class="primary" id="download-button" disabled>下载选中的图片</button>
+  </footer>
+
+  <script type="module" src="gallery.js"></script>
+</body>
+</html>

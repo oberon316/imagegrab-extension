@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>权限与隐私说明 · 图提取 ImageGrab</title><meta name="description" content="了解图提取处理哪些数据、浏览器权限的用途，以及预览和下载图片时的网络请求。"><link rel="icon" href="./assets/icon128.png" type="image/png"><link rel="stylesheet" href="./assets/style.css"></head>
+<body>
+<a class="skip-link" href="#main">跳到正文</a>
+<header class="site-header"><div class="container header-inner"><a class="brand" href="./index.html"><img src="./assets/icon128.png" width="38" height="38" alt=""><span>图提取 <small>ImageGrab</small></span></a><a class="text-link back-home" href="./index.html">返回首页 ↗</a></div></header>
+<main id="main" class="document-main"><div class="document-container">
+<a class="back-link" href="./index.html">← 返回图提取首页</a>
+<div class="document-header"><p class="eyebrow">IMAGEGRAB / PRIVACY</p><h1>权限与隐私说明</h1><p>图片处理在本机完成。预览与下载仍需向图片原站发起网络请求；扩展不把图片另行上传到额外的处理服务。</p></div>
+<section class="document-section"><h2>会读取哪些内容</h2><p>你主动触发采集后，扩展读取当前页面中的图片链接、尺寸、图片说明等信息，并记录来源页面标题与地址，用于整理和展示图库。已配置的站点会加载内容脚本，以显示采集入口。</p></section>
+<section class="document-section"><h2>这些权限用来做什么</h2><dl class="permission-list"><dt>activeTab</dt><dd>在你点击扩展入口后，临时访问当前标签页。</dd><dt>scripting</dt><dd>按需注入图片采集脚本。</dd><dt>downloads</dt><dd>创建下载任务并读取任务进度，保存选中的图片。</dd><dt>storage</dt><dd>在本机保存采集会话与使用设置。</dd><dt>contextMenus</dt><dd>提供右键菜单的图片提取入口。</dd><dt>host_permissions</dt><dd>允许访问清单中列出的电商站点、图片 CDN 和本地测试地址，用于站点适配与取回图片。具体范围可在扩展 manifest.json 中查看。</dd></dl></section>
+<section class="document-section"><h2>数据保存在哪里</h2><p>采集结果保存在浏览器会话存储 <code>chrome.storage.session</code>，设置保存在 <code>chrome.storage.local</code>。下载文件由浏览器保存到本机下载目录。扩展没有另外配置的图片上传或分析服务。</p></section>
+<section class="document-section"><h2>什么时候会发起网络请求</h2><p>生成缩略图或下载图片时，浏览器会请求对应的图片服务器。图片原站可能据此收到正常网络连接信息。原站访问限制、图片域名授权和网络状况，都可能影响取图结果。</p></section>
+<section class="document-section"><h2>官网与外部链接</h2><p>官网使用随站点提供的样式、脚本、字体栈和图片，没有嵌入第三方统计脚本。下载按钮指向本站的 ZIP 文件；点击 GitHub 链接会进入 GitHub。网站托管服务自身可能保留访问日志。</p></section>
+<p class="document-updated">更新日期：2026-10-15 · 对应插件版本 1.0.0</p>
+</div></main>
+<footer class="site-footer"><div class="container footer-inner"><p>© <span id="year">2026</span> 图提取 / ImageGrab</p><a class="text-link" href="./index.html#install">查看安装指南 ↗</a></div></footer>
+<div class="toast" role="status" aria-live="polite"></div><script src="./assets/main.js"></script>
+</body></html>

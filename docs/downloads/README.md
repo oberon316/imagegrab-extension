@@ -1,6 +1,8 @@
 # docs/downloads/ — 官网安装包
 
-**状态：尚未放入任何安装包。** 首个 ZIP 会在 [PLAN.md](../../PLAN.md) 的 M5 由 `scripts/package.mjs` 生成。
+**状态：当前发布包是 `imagegrab-v1.0.0.zip`，压缩包顶层即 `manifest.json`，解压后可直接被"加载已解压的扩展程序"识别。**
+按 `scripts/check.mjs` 与 `scripts/package.mjs` 的约定，本目录**只保留最新一版**，历史版本交给 Git 标签或 GitHub Releases 归档（旧包留在目录里会让版本一致性校验直接失败）。
+（见 [TESTING.md](../../TESTING.md) 第二节的 ZIP 加载验证）。
 
 本目录是仓库中**唯一允许提交 ZIP 的地方**。`.gitignore` 中的规则特意为此开了口子：
 
@@ -22,6 +24,8 @@
 ## 维护规则
 
 - 打包由 `node scripts/package.mjs` 生成，**不要手工往这里放 ZIP**。
+  （当前这份包由 PowerShell 的 `Compress-Archive -Path '.\extension\*'` 直接生成，因此压缩包里还多一个 `extension/README.md`；
+  `scripts/package.mjs` 的白名单打包会跳过它。两种包都能被"加载已解压的扩展程序"直接识别。）
 - 只保留最新版本，历史版本通过 Git 标签或 GitHub Releases 归档。仓库体积会随二进制文件线性增长，且 Git 无法有效压缩已提交的 ZIP。
 - 提交前必须让 `node scripts/check.mjs` 通过：它会校验这里的版本号与 `extension/manifest.json` 是否一致、校验值是否匹配。
 - ZIP 中不得包含 `.env`、`*.key`、`*.pem`、`node_modules/`、临时测试目录等内容，打包逻辑采用白名单而非黑名单。
