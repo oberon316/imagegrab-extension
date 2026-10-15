@@ -1,0 +1,82 @@
+# ============================================================
+# ImageGrab / 图提取 — Git 忽略规则
+# 约定：仓库内只提交源码、文档与官网发布包。
+# ============================================================
+
+# ---------- 环境变量与本地凭据配置 ----------
+.env
+.env.*
+!.env.example
+*.env.local
+secrets.json
+secrets.*.json
+credentials.json
+credentials.*.json
+*credential*.json
+*secret*.json
+local.config.json
+config.local.*
+*.local.json
+**/local.settings.*
+*.pem
+*.p12
+*.key
+service-account*.json
+
+# ---------- 依赖 ----------
+node_modules/
+.pnpm-store/
+bower_components/
+vendor/bundle/
+
+# ---------- 构建产物与缓存 ----------
+dist/
+build/
+out/
+coverage/
+.cache/
+.parcel-cache/
+*.tsbuildinfo
+*.log
+npm-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ---------- 临时测试目录 ----------
+tmp/
+.tmp/
+temp/
+tests/tmp/
+tests/output/
+tests/artifacts/
+test-output/
+playwright-report/
+test-results/
+.pytest_cache/
+
+# ---------- 个人下载文件 ----------
+# 注意：锚定到仓库根目录，避免误伤 docs/downloads/ 下的发布包
+/downloads/
+/个人下载/
+*.crdownload
+*.part
+*.crx
+
+# ---------- 编辑器与系统 ----------
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.shared.json
+.idea/
+*.swp
+*~
+.DS_Store
+._*
+Thumbs.db
+desktop.ini
+
+# ---------- 打包产物 ----------
+# 忽略任意位置的临时 ZIP（例如手工打出的调试包）
+*.zip
+# 例外：官网发布包必须保留，不能被上面的 *.zip 一并忽略
+!docs/downloads/*.zip
+!docs/downloads/*.zip.sha256
