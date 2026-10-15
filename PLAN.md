@@ -182,7 +182,7 @@ M1–M3 的已交付部分构成"首个可用版本"，并已在真实 Chrome �
 | M5-6 | 更新日志页 | FR-805 | `docs/changelog.html` | 未做（当前只有 1.0.0 一个版本，尚无变更可记，见 `docs/README.md` 的说明） |
 | M5-7 | 响应式 + 深色模式 + 无外部依赖 | FR-801/806/807 | `docs/assets/` | 部分完成：响应式（4 档断点，含 360px）与零外部依赖（1 个 CSS、1 个 JS、无 CDN/字体/统计）已完成；**深色模式未做**（全站只有 `@media(prefers-reduced-motion)`，没有 `prefers-color-scheme`） |
 | M5-8 | 404 页与 `.nojekyll` | FR-808 | `docs/404.html`、`docs/.nojekyll` | 已完成 |
-| M5-9 | 开启 GitHub Pages（`main` 分支 `/docs` 目录）并验证线上可访问 | FR-809 | 仓库设置 | **未做**，需要在仓库设置里手动开启后再验证一次 |
+| M5-9 | 开启 GitHub Pages（`main` 分支 `/docs` 目录）并验证线上可访问 | FR-809 | 仓库设置 | **已完成（2026-10-15）**；构建成功，HTTPS 首页及三个下载入口均实测通过，见 TESTING.md 第九节 |
 | M5-10 | 写出发布流程清单：改版本号 → check → package → 更新官网 → 提交 → 打 tag | README | `README.md`、`PLAN.md` | 已完成（`README.md` 的"发布流程"8 步） |
 
 **关于 ZIP 打包的实现方式**
@@ -284,12 +284,11 @@ M0 ──> M1 ──> M2 ──> M3 ──┬──> M6
 | M4 截图与整页长图 | 未开始 |
 | M5 的更新日志页（`docs/changelog.html`，FR-805） | 未生成：当前只有 1.0.0 一个版本，没有变更可记。发布第二个版本时再补 |
 | M5 的官网深色模式（FR-807，P1） | 未实现：`docs/assets/style.css` 里没有 `prefers-color-scheme`，而写死的色值散落在 `:root` 变量之外，要先做一次样式重构（TESTING.md LIM-10） |
-| M5-9 开启 GitHub Pages（FR-809，P0） | 需要在仓库设置里手动开启，并到线上验证一次下载按钮与 `.nojekyll` |
 | M6 的完整 i18n（`_locales`）、网格虚拟化 | 未实现，界面文案为中文硬编码 |
 
 ### 下一步建议
 
-1. 在仓库设置里开启 GitHub Pages（`main` 分支 `/docs` 目录），然后按 TESTING.md 的 TC-WEB-LIVE-01 到线上验证一次：这一步做完，M5 就只剩"更新日志页"和"官网深色模式"两个 P1 项。
+1. GitHub Pages 与线上 ZIP 下载已于 2026-10-15 验证完成，M5 剩余"更新日志页"和"官网深色模式"两个 P1 项。1.0.0 下载包本轮未重新加载进浏览器测试，保留这一验证限制。
 2. 把 1.0.0 的安装包按 `scripts/package.mjs` 重打一遍，替换掉现在这份 `Compress-Archive` 产物，让发布物与发布脚本一致（详见 TESTING.md 第八节）。**2026-10-15 决定暂不重打**：两种包都能正常加载，差异只是包内多一个 `extension/README.md`；等 1.0.1 或下一个版本发布时，直接用 `package.mjs` 产出即可，不必为此单独改一次已发布的校验值。
 3. 在真实的淘宝/天猫/京东/拼多多详情页各跑一次（TESTING.md 第五节的手工用例），确认详情页识别规则与长图采集效果。
 4. 决定许可证，然后按 README 的发布流程打标签。

@@ -1,5 +1,8 @@
 # ImageGrab / 图提取
 
+官网：https://oberon316.github.io/imagegrab-extension/  
+下载：[ImageGrab v1.0.0 ZIP](https://oberon316.github.io/imagegrab-extension/downloads/imagegrab-v1.0.0.zip)
+
 一个 Manifest V3 的 Chrome 扩展：在淘宝、天猫、京东、拼多多商家版**商品详情页**右下角显示"获取图片"按钮，一键采集页面里的图片，在扩展自己的图库页面里挑选，然后把选中的图片**真正转换为 PNG 编码**后批量下载为 `商品图_001.png` 形式。
 
 > **当前状态：核心功能已实现，并已在真实 Chrome 中跑通端到端验证。**
@@ -123,7 +126,7 @@ node tests/browser-e2e.mjs
 
 ## 隐私
 
-扩展只在用户主动点击时读取当前标签页的 DOM 与图片地址，不采集页面文本，不向任何服务器发送数据。采集结果存放在 `chrome.storage.session`（浏览器会话内有效，重启浏览器即清空），设置存放在 `chrome.storage.local`。官网为纯静态页面，无统计脚本、无第三方字体或 CDN 请求。
+扩展采集当前页面的图片地址、尺寸与来源，并记录页面标题和网址以显示采集来源。预览与下载会向图片原站发起请求，不向额外的图片处理服务上传图片。采集结果存放在 `chrome.storage.session`（浏览器会话内有效，重启浏览器即清空），设置存放在 `chrome.storage.local`。官网为纯静态页面，无统计脚本、无第三方字体或 CDN 请求。
 
 ## 许可证
 

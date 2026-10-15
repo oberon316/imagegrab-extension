@@ -168,7 +168,7 @@ BMP 27702 字节 → PNG 4398 字节、JPEG 2835 → 14615、WebP 1610 → 12528
 | TC-WEB-UI-01 | 官网三个页面（首页 / 隐私 / 404）在 360px 窄屏下的排版 | 需要人工目视 | 未执行 |
 | TC-WEB-UI-02 | 官网跟随系统深色模式时的配色与对比度 | **功能未实现**（样式表里没有 `prefers-color-scheme`，见 LIM-10），暂无从执行 | 不适用 |
 | TC-WEB-UI-03 | 官网键盘操作：导航、FAQ 折叠、灯箱关闭、复制校验值 | 需要人工交互确认 | 未执行 |
-| TC-WEB-LIVE-01 | 线上 GitHub Pages 打开首页并下载 ZIP | 需先在仓库设置里开启 Pages（PLAN.md M5-9） | 未执行 |
+| TC-WEB-LIVE-01 | 线上 GitHub Pages 打开首页并下载 ZIP | 已开启 Pages，三个按钮分别实际下载，校验值及内容一致 | **通过（2026-10-15），见第九节** |
 
 ---
 
@@ -215,5 +215,18 @@ BMP 27702 字节 → PNG 4398 字节、JPEG 2835 → 14615、WebP 1610 → 12528
 | 已执行（2026-10-15） | `node scripts/check.mjs` → 0 错误 / 0 警告（18 项，含逐条 CRC、`SHA256SUMS.txt` 比对，以及"官网首页与发布包一致"）；把包解压后与 `extension/` 逐字节比对，21 个文件全部一致；`node --test "tests/*.test.mjs"` → 25 通过 / 0 失败 |
 | 已执行（2026-10-15）<br>官网链接审计 | 三个页面共 30 处站内链接（去掉重复后 11 个 URL）用本地 HTTP 服务器逐个请求，全部 200、无空响应；`#锚点` 全部能对上目标 id；没有以 `/` 开头的根路径链接；3 个下载按钮解析到同一 URL，实测 HTTP 200 且文件头为 `PK`；站外链接只有 GitHub 仓库一个，未联网校验；`docs/downloads/` 下只有 1 个 ZIP，`manifest.json` 与 `SHA256SUMS.txt` 的校验值都与该 ZIP 实测值一致 |
 | 未执行 | 1.0.0 这一版**尚未**按"解压后加载"的方式在真实浏览器里跑 `browser-e2e.mjs`（上一版 0.1.0 的同类验证见第二节）。需要复现时：`Expand-Archive docs/downloads/imagegrab-v1.0.0.zip -DestinationPath tests/tmp/zip-install -Force` → `$env:EXTENSION_DIR="tests/tmp/zip-install"` → `node tests/browser-e2e.mjs` |
-| 未执行 | GitHub Pages 尚未开启（PLAN.md 的 M5-9）。线上地址、`docs/.nojekyll` 是否生效、子路径部署下下载按钮是否仍指向正确文件，都必须在开启后到线上再确认一次 |
+| 已执行（2026-10-15） | GitHub Pages 已开启，构建成功；线上首页和三个相对路径下载入口实测通过，详见第九节 |
 | 已决定保留 | 这份包由 PowerShell 的 `Compress-Archive` 生成，因此比 `scripts/package.mjs` 的白名单产出多一个 `extension/README.md`（21 个条目 vs 20 个）。两者都能被"加载已解压的扩展程序"识别，实测也都能正常加载运行。**2026-10-15 决定不重打**：重打会改变已对外展示的 SHA-256，收益只是"包内少一个说明文件"，不值得；下一个版本直接用 `node scripts/package.mjs` 产出即可。注意此后 `docs/downloads/README.md` 里"由 Compress-Archive 生成"的说明只对 1.0.0 这一份成立 |
+
+
+## 九、官网优化与线上发布验收（2026-10-15）
+
+- 官网重新整理为米白、松绿和陶土色系；统一导航、功能介绍、真实截图、安装步骤、下载版本与 FAQ。
+- 本地已检查 320、390、768、1024、1440px 宽度，无横向溢出；导航、截图灯箱、FAQ、复制操作与下载入口已操作验证，浏览器未报告警告或错误。
+- 源码已推送到 https://github.com/oberon316/imagegrab-extension ，首次发布提交为 `177659dd739ebac15b4e1e0aa63d552136a7127b`。
+- Pages 来源为 `main /docs`，HTTPS 已开启；GitHub 构建状态为 `built`。官网 https://oberon316.github.io/imagegrab-extension/ 实测 HTTP 200。
+- 在公开官网依次点击页头、首屏、安装区三个下载按钮，获得三个实际 ZIP 文件。每份均为 53,524 字节、21 个文件，CRC 正常，顶层存在 MV3 的 `manifest.json`，版本为 1.0.0。
+- 三份线上下载的 SHA-256 均为 `7ea5e7c8d6468508d9996148ec8bde1703dbaa3b0914f40d925c3a8332c70e54`；逐字节等于仓库中的发布包，包内文件逐项等于本地 `extension/`。
+- 截图与校验报告另存于本机 `C:/AITraining/ImageGrab-作业提交`，不向公开仓库提交本机截图与下载记录。
+
+本轮未重新安装并运行线上下载的 1.0.0 扩展。Windows 浏览器控制工具因无法可靠确认当前地址而停止，未继续操作该窗口。既有插件截图来自项目已有的真实 Chrome 截图；不能将其当作本轮重新安装的证据。旧版 E2E 记录与未验证的真实店铺场景仍按原记录保留。

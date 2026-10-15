@@ -1,6 +1,6 @@
 # docs/ — 纯静态官网
 
-**状态：官网页面已生成。** 本目录是 GitHub Pages 的发布目录，推送后站点自动更新。
+**状态：官网已发布。** https://oberon316.github.io/imagegrab-extension/ 。本目录由 GitHub Pages 从 main 分支 /docs 发布，后续推送自动更新。
 
 ## 约束
 
@@ -13,7 +13,7 @@
 | 文件 | 内容 |
 | --- | --- |
 | `index.html` | 首页：产品介绍、插件功能、界面展示、支持与测试范围、下载安装步骤、常见问题、GitHub 链接、首屏与页尾的下载按钮（含版本号与 SHA-256） |
-| `privacy.html` | 隐私政策：逐条说明每个浏览器权限的用途，声明不采集上传任何数据 |
+| `privacy.html` | 隐私说明：权限用途、页面来源信息的本地存储、预览和下载向图片原站发起的请求 |
 | `404.html` | 自定义 404 页面 |
 | `assets/style.css` | 样式（米白纸色 · 墨绿正文 · 陶土橙强调），响应式 |
 | `assets/main.js` | 轻交互：移动端导航、FAQ 折叠、图片灯箱、复制校验值、读取 `downloads/manifest.json` 显示最新版本 |
